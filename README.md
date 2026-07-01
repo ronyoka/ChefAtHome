@@ -1,19 +1,51 @@
-# ChefAtHome 🍳
+# ChefAtHome — Pajti Imre, Private Chef 🍽️
 
-A simple static website for home-cooking recipes and inspiration, served with GitHub Pages.
+Marketing site for **Pajti Imre**, a private chef serving villas across
+**Murcia, the Costa Cálida & Costa Blanca** in Spain. Framework-free static
+site, served with GitHub Pages.
 
 **Live site:** https://ronyoka.github.io/ChefAtHome/
 
-## Local preview
+## Languages
 
-Just open `index.html` in your browser, or serve the folder:
+The site ships in **8 languages**, chosen for the region's international clientele.
+On first visit the language is picked from the browser, then remembered in
+`localStorage`; visitors can switch any time from the selector in the header.
+
+| Code | Language | | Code | Language |
+|------|----------|---|------|----------|
+| `en` | English (default) | | `fr` | Français (Belgium) |
+| `es` | Español | | `da` | Dansk (Denmark) |
+| `de` | Deutsch | | `no` | Norsk (Norway) |
+| `nl` | Nederlands (Holland) | | `hu` | Magyar |
+
+## Structure
+
+```
+index.html   — the page (inline styles, semantic sections, data-i18n hooks)
+i18n.js      — translation tables + language switcher + form handling
+images/      — 17 photos (extracted from the original design bundle)
+```
+
+Hungarian is the copy baked directly into `index.html`; every other language is
+swapped in from the `I18N` table in `i18n.js`. To add a language, add one entry
+to that table and one `<option>` to the `#langSelect` dropdown.
+
+## Local preview
 
 ```bash
 python -m http.server 8000
-# then visit http://localhost:8000
+# then open http://localhost:8000
 ```
+
+## Notes
+
+- The enquiry form currently shows a client-side "thank you" confirmation only.
+  GitHub Pages has no backend — wire a form service (e.g. Formspree) or a
+  `mailto:` in `i18n.js` (`handleSubmit`) to actually deliver enquiries.
+- Contact details (`+34 600 000 000`, `hola@chefpajti.es`) are placeholders.
 
 ## Deployment
 
-The site is published automatically from the `main` branch (root) via GitHub Pages.
-Push a change to `main` and it goes live within a minute or two.
+Published from the `main` branch (root) via GitHub Pages. Push to `main` and the
+site updates within a minute or two.
