@@ -40,14 +40,38 @@ const I18N = {
     var sel = document.getElementById('langSelect');
     if (sel && sel.value !== lang) sel.value = lang;
   };
+  // Where enquiries are sent. Replace with Imre's real inbox.
+  window.CONTACT_EMAIL = 'hola@chefpajti.es';
   window.handleSubmit = function (e) {
     e.preventDefault();
+    var form = document.getElementById('enquiryForm');
+    var lines = [];
+    var name = '';
+    if (form) {
+      var nameField = form.querySelector('input:not([type="email"])');
+      name = nameField ? (nameField.value || '').trim() : '';
+      // Build the email body from each labelled field the visitor filled in,
+      // using the currently-selected language's labels.
+      form.querySelectorAll('label').forEach(function (lab) {
+        var field = lab.querySelector('input, textarea');
+        if (!field) return;
+        var labelEl = lab.querySelector('[data-i18n]');
+        var label = labelEl ? labelEl.textContent.trim() : '';
+        var val = (field.value || '').trim();
+        if (val) lines.push(label + ': ' + val);
+      });
+    }
+    var subject = 'Website enquiry' + (name ? ' — ' + name : '');
+    var href = 'mailto:' + window.CONTACT_EMAIL +
+      '?subject=' + encodeURIComponent(subject) +
+      '&body=' + encodeURIComponent(lines.join('\r\n'));
+    // Open the visitor's email client with everything pre-filled.
+    window.location.href = href;
+    // Show the on-page confirmation.
     var live = document.getElementById('form-live');
     var sent = document.getElementById('form-sent');
     if (live) live.style.display = 'none';
     if (sent) sent.style.display = '';
-    // No backend on GitHub Pages: wire a form service (e.g. Formspree) or a
-    // mailto here to actually deliver the enquiry.
     return false;
   };
   document.addEventListener('DOMContentLoaded', function () {
