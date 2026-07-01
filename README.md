@@ -40,10 +40,14 @@ python -m http.server 8000
 
 ## Notes
 
-- The enquiry form currently shows a client-side "thank you" confirmation only.
-  GitHub Pages has no backend — wire a form service (e.g. Formspree) or a
-  `mailto:` in `i18n.js` (`handleSubmit`) to actually deliver enquiries.
-- Contact details (`+34 600 000 000`, `hola@chefpajti.es`) are placeholders.
+- The enquiry form opens the visitor's email client with a pre-filled message
+  (subject + every field, labelled in the visitor's language) addressed to
+  `CONTACT_EMAIL` in `i18n.js`, then shows the on-page "thank you". No backend is
+  needed. Change the recipient by editing `CONTACT_EMAIL`. (If you'd prefer a
+  hosted form that emails silently without opening a mail app, swap in a service
+  like Formspree.)
+- Contact details (`+34 600 000 000`, `hola@chefpajti.es`) are placeholders —
+  the email address is used both in the header link and as the form recipient.
 
 ## Deployment
 
