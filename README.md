@@ -23,7 +23,7 @@ On first visit the language is picked from the browser, then remembered in
 
 ```
 index.html   — the page (inline styles, semantic sections, data-i18n hooks)
-i18n.js      — translation tables + language switcher + form handling
+i18n.js      — translation tables + language switcher
 images/      — 17 photos (extracted from the original design bundle)
 ```
 
@@ -38,16 +38,18 @@ python -m http.server 8000
 # then open http://localhost:8000
 ```
 
-## Notes
+## Contact
 
-- The enquiry form opens the visitor's email client with a pre-filled message
-  (subject + every field, labelled in the visitor's language) addressed to
-  `CONTACT_EMAIL` in `i18n.js`, then shows the on-page "thank you". No backend is
-  needed. Change the recipient by editing `CONTACT_EMAIL`. (If you'd prefer a
-  hosted form that emails silently without opening a mail app, swap in a service
-  like Formspree.)
-- Contact details (`+34 600 000 000`, `hola@chefpajti.es`) are placeholders —
-  the email address is used both in the header link and as the form recipient.
+There is no contact form — visitors reach the chef directly from the contact
+section and the hero:
+
+- **WhatsApp** — `https://wa.me/34605342806`
+- **Phone** — `tel:+34605342806` (+34 605 34 28 06)
+- **Email** — `mailto:hola@chefpajti.es` (placeholder address — replace with the real one)
+
+The right-hand side of the contact section is a decorative inline SVG (a covered
+dish with a place setting). To change the number, update the `wa.me` / `tel:`
+links in `index.html`; to change the email, update the `mailto:` links.
 
 ## Deployment
 
