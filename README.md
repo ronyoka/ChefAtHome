@@ -45,7 +45,7 @@ section and the hero:
 
 - **WhatsApp** — `https://wa.me/34605342806`
 - **Phone** — `tel:+34605342806` (+34 605 34 28 06)
-- **Email** — `mailto:hola@chefpajti.es` (placeholder address — replace with the real one)
+- **Email** — `mailto:hola@chefathome.es` (matches the chefathome.es domain)
 
 The right-hand side of the contact section is a decorative inline SVG (a covered
 dish with a place setting). To change the number, update the `wa.me` / `tel:`
