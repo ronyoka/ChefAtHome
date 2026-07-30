@@ -67,6 +67,54 @@
   #lb-prev{ left:16px; }
   #lb-next{ right:16px; }
   #lightbox button:active{ transform:scale(0.94); }
+  /* ---- Motion ------------------------------------------------------------
+     The .rv reveal classes are added by JS, so with JS off nothing is hidden.
+     Everything here is scoped to "no-preference" so reduced-motion users get
+     the plain, static page. */
+  @media (prefers-reduced-motion: no-preference){
+    .rv{ opacity:0; transform:translateY(24px);
+      transition:opacity 0.75s cubic-bezier(0.22,0.61,0.36,1), transform 0.75s cubic-bezier(0.22,0.61,0.36,1);
+      transition-delay:var(--rvd,0s); will-change:opacity, transform; }
+    .rv-l{ transform:translateX(-30px); }
+    .rv-r{ transform:translateX(30px); }
+    .rv-s{ transform:scale(0.9); }
+    .rv-z{ transform:scale(1.04); }
+    .rv.in{ opacity:1; transform:none; will-change:auto; }
+
+    /* hero image: slow ken-burns drift */
+    @keyframes kenburns{ from{ transform:scale(1); } to{ transform:scale(1.075); } }
+    #top > div:last-child{ overflow:hidden; border-radius:6px; }
+    #hero-main{ animation:kenburns 20s ease-in-out 1.2s infinite alternate; }
+
+    /* the journey timeline draws itself in */
+    #jr-line{ transform:scaleX(0); transform-origin:left center; transition:transform 1.3s cubic-bezier(0.22,0.61,0.36,1) 0.15s; }
+    #jr-line.in{ transform:scaleX(1); }
+
+    /* the cloche illustration breathes */
+    @keyframes float{ 0%,100%{ transform:translateY(0); } 50%{ transform:translateY(-9px); } }
+    #contact svg[aria-label]{ animation:float 6.5s ease-in-out infinite; }
+  }
+
+  /* ---- Hover / scroll micro-interactions (safe for reduced motion) ---- */
+  header{ transition:box-shadow 0.3s ease, background 0.3s ease; }
+  header.stuck{ box-shadow:0 6px 22px rgba(42,36,32,0.10); background:rgba(246,239,227,0.95) !important; }
+  .nav-links a{ position:relative; }
+  .nav-links a::after{ content:''; position:absolute; left:0; right:0; bottom:-6px; height:1px;
+    background:#B14A2C; transform:scaleX(0); transform-origin:right center; transition:transform 0.35s ease; }
+  .nav-links a:hover::after{ transform:scaleX(1); transform-origin:left center; }
+  a[href="#contact"], a[href*="wa.me"], a[href^="tel:"], a[href^="mailto:"]{
+    transition:transform 0.25s ease, box-shadow 0.25s ease, opacity 0.25s ease; }
+  a[href="#contact"]:hover, a[href*="wa.me"]:hover{ transform:translateY(-2px); }
+  a[href^="tel:"]:hover, a[href^="mailto:"]:hover{ opacity:0.82; }
+  .lift{ transition:transform 0.35s cubic-bezier(0.22,0.61,0.36,1), box-shadow 0.35s ease; }
+  .lift:hover{ transform:translateY(-6px); box-shadow:0 22px 44px rgba(42,36,32,0.16); }
+  #gallery figcaption{ transform:translateY(7px); opacity:0.9; transition:transform 0.4s ease, opacity 0.4s ease; }
+  #gallery figure:hover figcaption{ transform:none; opacity:1; }
+  #area [style*="border-radius:999px"]{ transition:background 0.3s ease, border-color 0.3s ease; }
+  #area [style*="border-radius:999px"]:hover{ background:rgba(246,239,227,0.12); }
+  #progress{ position:fixed; top:0; left:0; height:2px; width:100%; z-index:60; background:transparent; pointer-events:none; }
+  #progress i{ display:block; height:100%; width:0; background:#B14A2C; transition:width 0.12s linear; }
+
   @media (max-width:640px){
     #lb-inner{ padding:52px 10px 12px; }
     #lb-prev,#lb-next{ width:42px; height:42px; font-size:24px; }
@@ -76,6 +124,7 @@
 </style>
 </head>
 <body>
+<div id="progress" aria-hidden="true"><i></i></div>
 <div style="background:#F6EFE3; overflow-x:hidden;">
 
   <!-- NAV -->
@@ -206,7 +255,7 @@
 
       <!-- career stages · vector timeline -->
       <div style="position:relative; padding-top:14px;">
-        <div style="position:absolute; top:47px; left:10%; right:10%; height:1px; background:linear-gradient(90deg, transparent, rgba(226,163,90,0.55) 8%, rgba(226,163,90,0.55) 92%, transparent);"></div>
+        <div id="jr-line" style="position:absolute; top:47px; left:10%; right:10%; height:1px; background:linear-gradient(90deg, transparent, rgba(226,163,90,0.55) 8%, rgba(226,163,90,0.55) 92%, transparent);"></div>
         <div style="display:grid; grid-template-columns:repeat(5,1fr); gap:8px; position:relative;">
 
           <div style="text-align:center; padding:0 6px;">
@@ -830,7 +879,7 @@
   </section>
 
   <!-- HOW IT WORKS -->
-  <section style="max-width:1200px; margin:0 auto; padding:108px 32px;">
+  <section id="how" style="max-width:1200px; margin:0 auto; padding:108px 32px;">
     <div style="text-align:center; margin-bottom:54px;">
       <div style="display:flex; align-items:center; gap:10px; justify-content:center; margin-bottom:16px;">
         <span style="width:34px; height:1px; background:#B14A2C;"></span>
@@ -984,6 +1033,139 @@
   </footer>
 
 </div>
+
+<script>
+/* Scroll-reveal, counters, nav state and scroll progress.
+   Every class here is applied from JS, so the page stays fully visible
+   without it — and prefers-reduced-motion neutralises the CSS side. */
+(function () {
+  var calm = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // ---- scroll progress + sticky nav ---------------------------------------
+  var fill = document.querySelector('#progress i');
+  var header = document.querySelector('header');
+  var ticking = false;
+  function onScroll() {
+    if (ticking) return;
+    ticking = true;
+    setTimeout(function () {
+      var max = document.documentElement.scrollHeight - window.innerHeight;
+      var p = max > 0 ? Math.min(window.scrollY / max, 1) : 0;
+      if (fill) fill.style.width = (p * 100).toFixed(2) + '%';
+      if (header) header.classList.toggle('stuck', window.scrollY > 40);
+      ticking = false;
+    }, 60);
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  // hover lift on the card-shaped blocks
+  ['#menus [style*="repeat(3,1fr)"] > div', '#packages [style*="repeat(4,1fr)"] > div',
+   '#journey [style*="repeat(3,1fr)"] > div'
+  ].forEach(function (sel) {
+    document.querySelectorAll(sel).forEach(function (el) { el.classList.add('lift'); });
+  });
+
+  if (calm) return;
+
+  // ---- reveal on scroll ---------------------------------------------------
+  var io = 'IntersectionObserver' in window ? new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (!e.isIntersecting) return;
+      e.target.classList.add('in');
+      io.unobserve(e.target);
+      if (e.target.dataset.count) countUp(e.target);
+    });
+  }, { rootMargin: '0px 0px -60px 0px', threshold: 0.05 }) : null;
+
+  // Anything short enough to sit inside the observer's bottom margin at full
+  // scroll (the footer) would never trigger — reveal the stragglers there.
+  window.addEventListener('scroll', function () {
+    if (window.scrollY + window.innerHeight < document.documentElement.scrollHeight - 4) return;
+    document.querySelectorAll('.rv:not(.in)').forEach(function (el) {
+      el.classList.add('in');
+      if (io) io.unobserve(el);
+      if (el.dataset.count) countUp(el);
+    });
+  }, { passive: true });
+
+  function arm(el, variant, delay) {
+    if (!el || el.classList.contains('rv')) return;
+    el.classList.add('rv');
+    if (variant) el.classList.add(variant);
+    if (delay) el.style.setProperty('--rvd', delay + 'ms');
+    if (io) io.observe(el); else el.classList.add('in');
+  }
+
+  // group(containerSelector, childSelector, variant, stepMs)
+  function group(container, child, variant, step) {
+    document.querySelectorAll(container).forEach(function (c) {
+      var kids = child ? [].slice.call(c.querySelectorAll(child)) : [c];
+      kids.forEach(function (el, n) { arm(el, variant, Math.min(n * (step || 0), 520)); });
+    });
+  }
+
+  group('#about > div:first-child', null, 'rv-l');
+  group('#about > div:last-child', ':scope > *', null, 80);
+  group('#journey > div > div:first-child', ':scope > div, :scope > p', null, 110);
+  group('#journey [style*="repeat(5,1fr)"]', ':scope > div', 'rv-s', 110);
+  group('#journey [style*="repeat(3,1fr)"]', ':scope > div', null, 120);
+  group('#journey [style*="flex-wrap:wrap"]', ':scope > span', 'rv-s', 80);
+  group('#journey [style*="text-align:center"] > p', null, null, 0);
+  group('#menus > div > div:first-child', ':scope > *', null, 90);
+  group('#menus > div', ':scope > div[style*="margin:8px 0 26px"], :scope > img', null, 0);
+  group('#menus [style*="repeat(3,1fr)"]', ':scope > div', null, 110);
+  group('#packages > div:first-child', ':scope > *', null, 90);
+  group('#packages [style*="repeat(4,1fr)"]', ':scope > div', null, 110);
+  group('#area > div > div:first-child', ':scope > div:first-child, :scope > h2, :scope > p', 'rv-l', 100);
+  group('#area [style*="flex-wrap:wrap"]', ':scope > span', 'rv-s', 70);
+  group('#area > div > div:last-child', null, 'rv-r');
+  group('#gallery > div:first-child', ':scope > *', null, 90);
+  group('#gallery', ':scope > p', null, 90);
+  group('#gallery [style*="grid-auto-rows"]', ':scope > figure', 'rv-z', 90);
+  group('#how > div:first-child', ':scope > *', null, 90);
+  group('#how > div:last-child', ':scope > div', null, 110);
+  group('#contact > div > div:first-child', ':scope > *', null, 90);
+  group('#contact > div > div:last-child', null, 'rv-r');
+  group('footer > div', ':scope > *', null, 120);
+
+  var line = document.getElementById('jr-line');
+  if (line && io) io.observe(line); else if (line) line.classList.add('in');
+
+  // ---- hero entrance (above the fold, so it plays straight away) ----------
+  var heroBits = [].slice.call(document.querySelectorAll('#top > div:first-child > *'));
+  heroBits.forEach(function (el, n) { arm(el, null, n * 110); });
+  arm(document.querySelector('#top > div:last-child'), 'rv-z', 260);
+  setTimeout(function () {
+    heroBits.forEach(function (el) { el.classList.add('in'); });
+    var img = document.querySelector('#top > div:last-child');
+    if (img) img.classList.add('in');
+  }, 60);
+
+  // ---- stat counters ------------------------------------------------------
+  function countUp(el) {
+    var node = el.firstChild;
+    if (!node || node.nodeType !== 3) return;
+    var target = parseInt(node.nodeValue, 10);
+    if (isNaN(target)) return;
+    var start = null, dur = 1500;
+    var done = setTimeout(function () { node.nodeValue = String(target); }, dur + 900);
+    function frame(t) {
+      if (start === null) start = t;
+      var p = Math.min((t - start) / dur, 1);
+      node.nodeValue = String(Math.round(target * (1 - Math.pow(1 - p, 3))));
+      if (p < 1) requestAnimationFrame(frame);
+      else { clearTimeout(done); node.nodeValue = String(target); }
+    }
+    node.nodeValue = '0';
+    requestAnimationFrame(frame);
+  }
+  document.querySelectorAll('section[style*="background:#B14A2C"] div[style*="Cormorant"]').forEach(function (el) {
+    el.dataset.count = '1';
+    arm(el, 'rv-s', 0);
+  });
+})();
+</script>
 
 <!-- LIGHTBOX -->
 <div id="lightbox" role="dialog" aria-modal="true" aria-label="Galéria" hidden>
