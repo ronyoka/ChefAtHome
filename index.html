@@ -8,7 +8,7 @@
 <meta property="og:title" content="Pajti Imre — Private Chef · Murcia & Costa Cálida">
 <meta property="og:description" content="Restaurant-grade tasting menus cooked in your own villa across Murcia, the Costa Cálida & Costa Blanca.">
 <meta property="og:type" content="website">
-<meta property="og:image" content="images/79f69588-066b-48ce-b0fd-bf3824708d64.jpg">
+<meta property="og:image" content="images/gal-terrace-fish.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -33,11 +33,45 @@
     [style*="grid-template-columns:repeat(5,1fr)"]{ grid-template-columns:repeat(2,1fr) !important; }
   }
   @media (max-width:900px){ .nav-links{ display:none !important; } }
+
+  /* ---- Gallery: hover zoom + lightbox ---- */
+  #gallery figure{ cursor:zoom-in; }
+  #gallery figure img{ transition:transform 0.6s cubic-bezier(0.2,0.6,0.2,1); }
+  #gallery figure:hover img{ transform:scale(1.06); }
+
+  #lightbox{ position:fixed; inset:0; z-index:200; display:flex; align-items:center; justify-content:center;
+    background:rgba(18,14,11,0.94); -webkit-backdrop-filter:blur(6px); backdrop-filter:blur(6px);
+    opacity:0; visibility:hidden; transition:opacity 0.28s ease, visibility 0.28s ease; }
+  #lightbox.open{ opacity:1; visibility:visible; }
+  #lb-inner{ display:flex; flex-direction:column; width:100%; height:100%; padding:58px 18px 18px; }
+  #lb-stage{ flex:1; min-height:0; display:flex; align-items:center; justify-content:center; position:relative; }
+  #lb-img{ max-width:100%; max-height:100%; object-fit:contain; border-radius:8px;
+    box-shadow:0 30px 70px rgba(0,0,0,0.55); opacity:0; transform:scale(0.965);
+    transition:opacity 0.3s ease, transform 0.35s cubic-bezier(0.2,0.6,0.2,1); }
+  #lb-img.ready{ opacity:1; transform:none; }
+  #lb-bar{ flex:none; padding-top:16px; text-align:center; }
+  #lb-cap{ color:#F6EFE3; font-family:'Cormorant Garamond',serif; font-size:22px; font-style:italic; line-height:1.3; }
+  #lb-count{ color:#9C948A; font-size:11px; letter-spacing:2.5px; margin-top:7px; }
+  #lb-thumbs{ display:flex; gap:8px; justify-content:center; margin-top:14px; overflow-x:auto;
+    padding-bottom:4px; scrollbar-width:thin; }
+  #lb-thumbs img{ width:70px; height:48px; flex:none; object-fit:cover; border-radius:4px; cursor:pointer;
+    opacity:0.4; outline:2px solid transparent; outline-offset:2px;
+    transition:opacity 0.2s ease, outline-color 0.2s ease; }
+  #lb-thumbs img:hover{ opacity:0.8; }
+  #lb-thumbs img.active{ opacity:1; outline-color:#E2A35A; }
+  #lightbox button{ position:absolute; border:none; cursor:pointer; color:#F6EFE3; line-height:1;
+    background:rgba(246,239,227,0.10); border-radius:50%; transition:background 0.2s ease, transform 0.2s ease; }
+  #lightbox button:hover{ background:rgba(246,239,227,0.22); }
+  #lb-close{ top:16px; right:18px; width:42px; height:42px; font-size:26px; }
+  #lb-prev,#lb-next{ top:50%; margin-top:-46px; width:52px; height:52px; font-size:30px; padding-bottom:4px; }
+  #lb-prev{ left:16px; }
+  #lb-next{ right:16px; }
+  #lightbox button:active{ transform:scale(0.94); }
   @media (max-width:640px){
-    [style*="grid-template-columns:1fr 1fr"]{ grid-template-columns:1fr !important; }
-    [style*="font-size:72px"]{ font-size:44px !important; }
-    [style*="font-size:52px"],[style*="font-size:50px"]{ font-size:34px !important; }
-    section[style]{ padding-top:64px !important; padding-bottom:64px !important; }
+    #lb-inner{ padding:52px 10px 12px; }
+    #lb-prev,#lb-next{ width:42px; height:42px; font-size:24px; }
+    #lb-prev{ left:6px; } #lb-next{ right:6px; }
+    #lb-cap{ font-size:17px; } #lb-thumbs img{ width:54px; height:38px; }
   }
 </style>
 </head>
@@ -83,7 +117,7 @@
       <p data-i18n="hero.sub" style="margin-top:26px; font-size:17.5px; line-height:1.62; max-width:480px; color:#4A443E;">Éttermi színvonalú kóstolómenük, a saját villádban elkészítve — a murciai huertára, a Mar Menor kincseire és arra építve, ami aznap reggel a legjobb a piacon.</p>
       <div style="display:flex; gap:14px; margin-top:34px; flex-wrap:wrap;">
         <a href="#contact" data-i18n="hero.cta1" style="background:#B14A2C; color:#F6EFE3; padding:15px 28px; border-radius:999px; font-size:15px; font-weight:600; box-shadow:0 10px 24px rgba(177,74,44,0.28);">Tervezzük meg az estét</a>
-        <a href="https://wa.me/34605342806" target="_blank" rel="noopener" style="display:flex; align-items:center; gap:9px; border:1px solid rgba(42,36,32,0.22); color:#2A2420; padding:15px 26px; border-radius:999px; font-size:15px; font-weight:600;">
+        <a href="https://wa.me/34604120916" target="_blank" rel="noopener" style="display:flex; align-items:center; gap:9px; border:1px solid rgba(42,36,32,0.22); color:#2A2420; padding:15px 26px; border-radius:999px; font-size:15px; font-weight:600;">
           <svg width="17" height="17" viewBox="0 0 24 24" fill="#5C6240"><path d="M.057 24l1.687-6.163a11.867 11.867 0 01-1.587-5.946C.16 5.335 5.495 0 12.05 0a11.821 11.821 0 018.413 3.488 11.824 11.824 0 013.48 8.414c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 01-5.688-1.448L.057 24zM6.597 20.13c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884a9.86 9.86 0 001.51 5.26l-.999 3.648 3.477-.917z"></path></svg>
           <span data-i18n="hero.cta2">WhatsApp</span>
         </a>
@@ -91,20 +125,13 @@
       <p data-i18n="hero.note" style="margin-top:30px; font-size:12.5px; letter-spacing:0.4px; color:#8A8278;">Privát villákat szolgálok ki Murcia, a Costa Cálida és a Costa Blanca területén.</p>
     </div>
     <div style="position:relative;">
-      <img id="hero-main" class="slot" src="images/79f69588-066b-48ce-b0fd-bf3824708d64.jpg" alt="Pajti Imre — private chef" style="width:100%; height:540px; object-fit:cover; border-radius:6px;">
-      <div style="position:absolute; left:-22px; bottom:34px; background:#F6EFE3; padding:16px 20px; border-radius:6px; box-shadow:0 16px 40px rgba(42,36,32,0.18); display:flex; align-items:center; gap:14px;">
-        <div style="font-family:'Cormorant Garamond',serif; font-size:38px; font-weight:600; color:#B14A2C; line-height:1;">4.9</div>
-        <div>
-          <div style="color:#C2873C; font-size:13px; letter-spacing:2px;">★★★★★</div>
-          <div data-i18n="hero.badge" style="font-size:11px; color:#6A645C; margin-top:3px; max-width:130px; line-height:1.3;">több mint 180 ellenőrzött vacsorából</div>
-        </div>
-      </div>
+      <img id="hero-main" class="slot" src="images/gal-terrace-fish.jpg" alt="Pajti Imre — private chef" style="width:100%; height:540px; object-fit:cover; border-radius:6px;">
     </div>
   </section>
 
   <!-- STATS STRIP -->
   <section style="background:#B14A2C; color:#F6EFE3;">
-    <div style="max-width:1200px; margin:0 auto; padding:34px 32px; display:grid; grid-template-columns:repeat(4,1fr); gap:24px;">
+    <div style="max-width:1200px; margin:0 auto; padding:34px 32px; display:grid; grid-template-columns:repeat(3,1fr); gap:24px;">
       <div style="text-align:center;">
         <div style="font-family:'Cormorant Garamond',serif; font-size:40px; font-weight:600; line-height:1;">320<span style="font-size:24px;">+</span></div>
         <div data-i18n="stat.dinners" style="font-size:12px; letter-spacing:1.5px; text-transform:uppercase; opacity:0.82; margin-top:8px;">Privát vacsora lebonyolítva</div>
@@ -117,17 +144,13 @@
         <div style="font-family:'Cormorant Garamond',serif; font-size:40px; font-weight:600; line-height:1;">100<span style="font-size:24px;">%</span></div>
         <div data-i18n="stat.local" style="font-size:12px; letter-spacing:1.5px; text-transform:uppercase; opacity:0.82; margin-top:8px;">Helyi, piaci friss alapanyag</div>
       </div>
-      <div style="text-align:center; border-left:1px solid rgba(246,239,227,0.22);">
-        <div style="font-family:'Cormorant Garamond',serif; font-size:40px; font-weight:600; line-height:1;">4</div>
-        <div data-i18n="stat.lang" style="font-size:12px; letter-spacing:1.5px; text-transform:uppercase; opacity:0.82; margin-top:8px;">Nyelven beszélek</div>
-      </div>
     </div>
   </section>
 
   <!-- ABOUT -->
   <section id="about" style="max-width:1200px; margin:0 auto; padding:110px 32px; display:grid; grid-template-columns:0.85fr 1fr; gap:72px; align-items:center;">
     <div style="position:relative;">
-      <img id="about-portrait" class="slot" src="images/about-imre.jpg" alt="Pajti Imre — private chef" style="width:100%; height:560px; object-fit:cover; border-radius:6px;" loading="lazy">
+      <img id="about-portrait" class="slot" src="images/imi-foz.jpg" alt="Pajti Imre — private chef" style="width:100%; height:560px; object-fit:cover; border-radius:6px;" loading="lazy">
       <div style="position:absolute; right:-48px; top:40px; background:#5C6240; color:#F6EFE3; padding:18px 22px; border-radius:6px; max-width:200px; box-shadow:0 14px 34px rgba(42,36,32,0.22);">
         <div data-i18n="about.tagcard" style="font-family:'Cormorant Garamond',serif; font-style:italic; font-size:21px; line-height:1.25;">„A főzés vendégszeretet, amit meg lehet kóstolni.”</div>
       </div>
@@ -158,7 +181,7 @@
         </div>
         <div style="display:flex; gap:11px; align-items:flex-start;">
           <span style="color:#B14A2C; font-size:18px; line-height:1;">✦</span>
-          <span data-i18n="about.f4" style="font-size:14.5px; color:#3A352F; line-height:1.45;">Kiszolgálás magyarul, angolul, spanyolul és németül</span>
+          <span data-i18n="about.f4" style="font-size:14.5px; color:#3A352F; line-height:1.45;">Piaci beszerzés és teljes menütervezés — neked csak asztalhoz kell ülnöd</span>
         </div>
       </div>
     </div>
@@ -772,94 +795,37 @@
     <p data-i18n="gallery.intro2" style="max-width:760px; margin:0 0 34px; font-size:16.5px; line-height:1.72; color:#4A443E;">Ezek a képek ennek az útnak a pillanatai: a piaci kosártól a tányérig, a lassú főzéstől az utolsó falatig. Ha szeretnéd, örömmel megosztom a saját asztalodról készült fotókat is — minden vacsora más, mert a te alkalmadra, a te vendégeidre szabom.</p>
     <div style="display:grid; grid-template-columns:repeat(4,1fr); grid-auto-rows:200px; gap:16px;">
       <figure style="position:relative; margin:0; border-radius:6px; overflow:hidden; box-shadow:0 8px 24px rgba(42,36,32,0.12); grid-row:span 2; ">
-        <img id="gal-1" src="images/3423bd62-25c0-4898-a5c1-ee685cfd6795.jpg" alt="Gondosan tálalt fogás" style="width:100%; height:100%; object-fit:cover; display:block;" loading="lazy">
-        <figcaption data-i18n="gal.c1" style="position:absolute; left:0; right:0; bottom:0; margin:0; padding:30px 14px 11px; font-family:'Hanken Grotesk',sans-serif; font-size:12px; font-weight:500; letter-spacing:0.2px; color:#F6EFE3; line-height:1.3; background:linear-gradient(to top, rgba(20,16,12,0.78), rgba(20,16,12,0));">Gondosan tálalt fogás</figcaption>
+        <img id="gal-1" src="images/gal-roulade-closeup.jpg" alt="Töltött csirkeroláda, bulgursalátán" style="width:100%; height:100%; object-fit:cover; display:block;" loading="lazy">
+        <figcaption data-i18n="gal.c1" style="position:absolute; left:0; right:0; bottom:0; margin:0; padding:30px 14px 11px; font-family:'Hanken Grotesk',sans-serif; font-size:12px; font-weight:500; letter-spacing:0.2px; color:#F6EFE3; line-height:1.3; background:linear-gradient(to top, rgba(20,16,12,0.78), rgba(20,16,12,0));">Töltött csirkeroláda, bulgursalátán</figcaption>
       </figure>
       <figure style="position:relative; margin:0; border-radius:6px; overflow:hidden; box-shadow:0 8px 24px rgba(42,36,32,0.12); ">
-        <img id="gal-2" src="images/7046da17-8d82-4a71-ba60-e3f3662d5c4a.jpg" alt="A huerta friss zöldjei" style="width:100%; height:100%; object-fit:cover; display:block;" loading="lazy">
-        <figcaption data-i18n="gal.c2" style="position:absolute; left:0; right:0; bottom:0; margin:0; padding:30px 14px 11px; font-family:'Hanken Grotesk',sans-serif; font-size:12px; font-weight:500; letter-spacing:0.2px; color:#F6EFE3; line-height:1.3; background:linear-gradient(to top, rgba(20,16,12,0.78), rgba(20,16,12,0));">A huerta friss zöldjei</figcaption>
+        <img id="gal-2" src="images/gal-lettuce-tacos.jpg" alt="Salátalevél taco, friss chilivel" style="width:100%; height:100%; object-fit:cover; display:block;" loading="lazy">
+        <figcaption data-i18n="gal.c2" style="position:absolute; left:0; right:0; bottom:0; margin:0; padding:30px 14px 11px; font-family:'Hanken Grotesk',sans-serif; font-size:12px; font-weight:500; letter-spacing:0.2px; color:#F6EFE3; line-height:1.3; background:linear-gradient(to top, rgba(20,16,12,0.78), rgba(20,16,12,0));">Salátalevél taco, friss chilivel</figcaption>
       </figure>
       <figure style="position:relative; margin:0; border-radius:6px; overflow:hidden; box-shadow:0 8px 24px rgba(42,36,32,0.12); ">
-        <img id="gal-3" src="images/a3bd88f1-49a0-4949-b5be-82a5afbc373f.jpg" alt="Hajnali piac" style="width:100%; height:100%; object-fit:cover; display:block;" loading="lazy">
-        <figcaption data-i18n="gal.c3" style="position:absolute; left:0; right:0; bottom:0; margin:0; padding:30px 14px 11px; font-family:'Hanken Grotesk',sans-serif; font-size:12px; font-weight:500; letter-spacing:0.2px; color:#F6EFE3; line-height:1.3; background:linear-gradient(to top, rgba(20,16,12,0.78), rgba(20,16,12,0));">Hajnali piac</figcaption>
+        <img id="gal-3" src="images/gal-dessert-plates.jpg" alt="Desszert az egész asztalnak" style="width:100%; height:100%; object-fit:cover; display:block;" loading="lazy">
+        <figcaption data-i18n="gal.c3" style="position:absolute; left:0; right:0; bottom:0; margin:0; padding:30px 14px 11px; font-family:'Hanken Grotesk',sans-serif; font-size:12px; font-weight:500; letter-spacing:0.2px; color:#F6EFE3; line-height:1.3; background:linear-gradient(to top, rgba(20,16,12,0.78), rgba(20,16,12,0));">Desszert az egész asztalnak</figcaption>
       </figure>
       <figure style="position:relative; margin:0; border-radius:6px; overflow:hidden; box-shadow:0 8px 24px rgba(42,36,32,0.12); grid-row:span 2; ">
-        <img id="gal-4" src="images/77b86523-4afc-4c4a-96f0-14ecf5ed136c.jpg" alt="Terített asztal a teraszon" style="width:100%; height:100%; object-fit:cover; display:block;" loading="lazy">
-        <figcaption data-i18n="gal.c4" style="position:absolute; left:0; right:0; bottom:0; margin:0; padding:30px 14px 11px; font-family:'Hanken Grotesk',sans-serif; font-size:12px; font-weight:500; letter-spacing:0.2px; color:#F6EFE3; line-height:1.3; background:linear-gradient(to top, rgba(20,16,12,0.78), rgba(20,16,12,0));">Terített asztal a teraszon</figcaption>
+        <img id="gal-4" src="images/gal-kitchen-pans.jpg" alt="Főzés a te konyhádban" style="width:100%; height:100%; object-fit:cover; display:block;" loading="lazy">
+        <figcaption data-i18n="gal.c4" style="position:absolute; left:0; right:0; bottom:0; margin:0; padding:30px 14px 11px; font-family:'Hanken Grotesk',sans-serif; font-size:12px; font-weight:500; letter-spacing:0.2px; color:#F6EFE3; line-height:1.3; background:linear-gradient(to top, rgba(20,16,12,0.78), rgba(20,16,12,0));">Főzés a te konyhádban</figcaption>
       </figure>
       <figure style="position:relative; margin:0; border-radius:6px; overflow:hidden; box-shadow:0 8px 24px rgba(42,36,32,0.12); ">
-        <img id="gal-5" src="images/34dbe342-9afa-4781-842f-5be966fd1605.jpg" alt="Tapas és kis fogások" style="width:100%; height:100%; object-fit:cover; display:block;" loading="lazy">
-        <figcaption data-i18n="gal.c5" style="position:absolute; left:0; right:0; bottom:0; margin:0; padding:30px 14px 11px; font-family:'Hanken Grotesk',sans-serif; font-size:12px; font-weight:500; letter-spacing:0.2px; color:#F6EFE3; line-height:1.3; background:linear-gradient(to top, rgba(20,16,12,0.78), rgba(20,16,12,0));">Tapas és kis fogások</figcaption>
+        <img id="gal-5" src="images/gal-meatballs.jpg" alt="Húsgombóc krémes mártásban" style="width:100%; height:100%; object-fit:cover; display:block;" loading="lazy">
+        <figcaption data-i18n="gal.c5" style="position:absolute; left:0; right:0; bottom:0; margin:0; padding:30px 14px 11px; font-family:'Hanken Grotesk',sans-serif; font-size:12px; font-weight:500; letter-spacing:0.2px; color:#F6EFE3; line-height:1.3; background:linear-gradient(to top, rgba(20,16,12,0.78), rgba(20,16,12,0));">Húsgombóc krémes mártásban</figcaption>
       </figure>
       <figure style="position:relative; margin:0; border-radius:6px; overflow:hidden; box-shadow:0 8px 24px rgba(42,36,32,0.12); ">
-        <img id="gal-6" src="images/b79e5999-1839-4ad1-856a-e2e533fbef88.jpg" alt="Színes, piacfriss tál" style="width:100%; height:100%; object-fit:cover; display:block;" loading="lazy">
-        <figcaption data-i18n="gal.c6" style="position:absolute; left:0; right:0; bottom:0; margin:0; padding:30px 14px 11px; font-family:'Hanken Grotesk',sans-serif; font-size:12px; font-weight:500; letter-spacing:0.2px; color:#F6EFE3; line-height:1.3; background:linear-gradient(to top, rgba(20,16,12,0.78), rgba(20,16,12,0));">Színes, piacfriss tál</figcaption>
+        <img id="gal-6" src="images/gal-roulade-plate.jpg" alt="Roláda bulgurral és rukkolával" style="width:100%; height:100%; object-fit:cover; display:block;" loading="lazy">
+        <figcaption data-i18n="gal.c6" style="position:absolute; left:0; right:0; bottom:0; margin:0; padding:30px 14px 11px; font-family:'Hanken Grotesk',sans-serif; font-size:12px; font-weight:500; letter-spacing:0.2px; color:#F6EFE3; line-height:1.3; background:linear-gradient(to top, rgba(20,16,12,0.78), rgba(20,16,12,0));">Roláda bulgurral és rukkolával</figcaption>
       </figure>
       <figure style="position:relative; margin:0; border-radius:6px; overflow:hidden; box-shadow:0 8px 24px rgba(42,36,32,0.12); grid-column:span 2; ">
-        <img id="gal-7" src="images/d92a5f65-2628-49c4-b748-2007c0bd73ff.jpg" alt="Megosztható fogások" style="width:100%; height:100%; object-fit:cover; display:block;" loading="lazy">
-        <figcaption data-i18n="gal.c7" style="position:absolute; left:0; right:0; bottom:0; margin:0; padding:30px 14px 11px; font-family:'Hanken Grotesk',sans-serif; font-size:12px; font-weight:500; letter-spacing:0.2px; color:#F6EFE3; line-height:1.3; background:linear-gradient(to top, rgba(20,16,12,0.78), rgba(20,16,12,0));">Megosztható fogások</figcaption>
+        <img id="gal-7" src="images/gal-dessert-closeup.jpg" alt="Csokoládéhenger málnával" style="width:100%; height:100%; object-fit:cover; display:block;" loading="lazy">
+        <figcaption data-i18n="gal.c7" style="position:absolute; left:0; right:0; bottom:0; margin:0; padding:30px 14px 11px; font-family:'Hanken Grotesk',sans-serif; font-size:12px; font-weight:500; letter-spacing:0.2px; color:#F6EFE3; line-height:1.3; background:linear-gradient(to top, rgba(20,16,12,0.78), rgba(20,16,12,0));">Csokoládéhenger málnával</figcaption>
       </figure>
-      <figure style="position:relative; margin:0; border-radius:6px; overflow:hidden; box-shadow:0 8px 24px rgba(42,36,32,0.12); ">
-        <img id="gal-8" src="images/b397e472-1e63-480d-a2ad-2899cf9107b1.jpg" alt="A parázs ízei" style="width:100%; height:100%; object-fit:cover; display:block;" loading="lazy">
-        <figcaption data-i18n="gal.c8" style="position:absolute; left:0; right:0; bottom:0; margin:0; padding:30px 14px 11px; font-family:'Hanken Grotesk',sans-serif; font-size:12px; font-weight:500; letter-spacing:0.2px; color:#F6EFE3; line-height:1.3; background:linear-gradient(to top, rgba(20,16,12,0.78), rgba(20,16,12,0));">A parázs ízei</figcaption>
+      <figure style="position:relative; margin:0; border-radius:6px; overflow:hidden; box-shadow:0 8px 24px rgba(42,36,32,0.12); grid-column:span 2; ">
+        <img id="gal-8" src="images/gal-skewers.jpg" alt="Fűszeres nyársak a grillen" style="width:100%; height:100%; object-fit:cover; display:block;" loading="lazy">
+        <figcaption data-i18n="gal.c8" style="position:absolute; left:0; right:0; bottom:0; margin:0; padding:30px 14px 11px; font-family:'Hanken Grotesk',sans-serif; font-size:12px; font-weight:500; letter-spacing:0.2px; color:#F6EFE3; line-height:1.3; background:linear-gradient(to top, rgba(20,16,12,0.78), rgba(20,16,12,0));">Fűszeres nyársak a grillen</figcaption>
       </figure>
-      <figure style="position:relative; margin:0; border-radius:6px; overflow:hidden; box-shadow:0 8px 24px rgba(42,36,32,0.12); ">
-        <img id="gal-9" src="images/389e5da5-b625-4611-9912-5c402c63a140.jpg" alt="A séf a te konyhádban" style="width:100%; height:100%; object-fit:cover; display:block;" loading="lazy">
-        <figcaption data-i18n="gal.c9" style="position:absolute; left:0; right:0; bottom:0; margin:0; padding:30px 14px 11px; font-family:'Hanken Grotesk',sans-serif; font-size:12px; font-weight:500; letter-spacing:0.2px; color:#F6EFE3; line-height:1.3; background:linear-gradient(to top, rgba(20,16,12,0.78), rgba(20,16,12,0));">A séf a te konyhádban</figcaption>
-      </figure>
-    </div>
-  </section>
-
-  <!-- TESTIMONIALS -->
-  <section style="background:#EFE5D5;">
-    <div style="max-width:1200px; margin:0 auto; padding:104px 32px;">
-      <div style="text-align:center; margin-bottom:50px;">
-        <div style="display:flex; align-items:center; gap:10px; justify-content:center; margin-bottom:16px;">
-          <span style="width:34px; height:1px; background:#B14A2C;"></span>
-          <span data-i18n="rev.eyebrow" style="font-size:11.5px; letter-spacing:2.5px; text-transform:uppercase; color:#8F3A20; font-weight:600;">Vendégtörténetek</span>
-          <span style="width:34px; height:1px; background:#B14A2C;"></span>
-        </div>
-        <h2 data-i18n="rev.h2" style="font-family:'Cormorant Garamond',serif; font-weight:500; font-size:50px; line-height:1.05; color:#221E1A; letter-spacing:-0.5px;">Asztalok, amelyekből emlék lett</h2>
-      </div>
-      <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:24px;">
-
-        <div style="background:#F6EFE3; border-radius:10px; padding:32px 30px; display:flex; flex-direction:column;">
-          <div style="color:#C2873C; font-size:15px; letter-spacing:2px;">★★★★★</div>
-          <p data-i18n="rev1.q" style="font-family:'Cormorant Garamond',serif; font-size:22px; line-height:1.45; color:#2A2420; margin-top:18px; flex:1;">„Imre az évfordulónkat az év vacsorájává tette. A caldero rizsért önmagában megérte visszarepülni.”</p>
-          <div style="display:flex; align-items:center; gap:13px; margin-top:24px;">
-            <img id="rev-1" class="slot" src="images/7d19f98e-8fd3-4a88-8a39-bcd1d15646bf.jpg" alt="Pajti Imre — private chef" style="width:46px; height:46px; object-fit:cover; border-radius:50%;" loading="lazy">
-            <div>
-              <div data-i18n="rev1.n" style="font-size:14px; font-weight:600; color:#2A2420;">Charlotte és James</div>
-              <div data-i18n="rev1.loc" style="font-size:12px; color:#8A8278;">Villa La Mangában · ✓ Ellenőrzött</div>
-            </div>
-          </div>
-        </div>
-
-        <div style="background:#F6EFE3; border-radius:10px; padding:32px 30px; display:flex; flex-direction:column;">
-          <div style="color:#C2873C; font-size:15px; letter-spacing:2px;">★★★★★</div>
-          <p data-i18n="rev2.q" style="font-family:'Cormorant Garamond',serif; font-size:22px; line-height:1.45; color:#2A2420; margin-top:18px; flex:1;">„Egy hét étkezés a kilencfős családunknak — minden diéta lefedve, egyetlen ismétlés sem, és a konyha minden este makulátlan.”</p>
-          <div style="display:flex; align-items:center; gap:13px; margin-top:24px;">
-            <img id="rev-2" class="slot" src="images/9c07b565-3c94-4bf1-9099-2ef642119fba.jpg" alt="Pajti Imre — private chef" style="width:46px; height:46px; object-fit:cover; border-radius:50%;" loading="lazy">
-            <div>
-              <div data-i18n="rev2.n" style="font-size:14px; font-weight:600; color:#2A2420;">Soriano család</div>
-              <div data-i18n="rev2.loc" style="font-size:12px; color:#8A8278;">Finca Murcia mellett · ✓ Ellenőrzött</div>
-            </div>
-          </div>
-        </div>
-
-        <div style="background:#F6EFE3; border-radius:10px; padding:32px 30px; display:flex; flex-direction:column;">
-          <div style="color:#C2873C; font-size:15px; letter-spacing:2px;">★★★★★</div>
-          <p data-i18n="rev3.q" style="font-family:'Cormorant Garamond',serif; font-size:22px; line-height:1.45; color:#2A2420; margin-top:18px; flex:1;">„Egy cartagenai jachtebédre foglaltam le. Profi, nyugodt és valóban finom. Már újra foglaltam.”</p>
-          <div style="display:flex; align-items:center; gap:13px; margin-top:24px;">
-            <img id="rev-3" class="slot" src="images/45d6a692-ef3d-4e9c-8e27-c3485a269cee.jpg" alt="Pajti Imre — private chef" style="width:46px; height:46px; object-fit:cover; border-radius:50%;" loading="lazy">
-            <div>
-              <div data-i18n="rev3.n" style="font-size:14px; font-weight:600; color:#2A2420;">Markus L.</div>
-              <div data-i18n="rev3.loc" style="font-size:12px; color:#8A8278;">Costa Blanca · ✓ Ellenőrzött</div>
-            </div>
-          </div>
-        </div>
-
-      </div>
     </div>
   </section>
 
@@ -915,22 +881,22 @@
         </h2>
         <p data-i18n="contact.p" style="margin-top:20px; font-size:16px; line-height:1.7; color:#C7BEB0; max-width:380px;">Mesélj egy kicsit az alkalomról, és 24 órán belül válaszolok ötletekkel és szabad időpontokkal.</p>
         <div style="margin-top:36px; display:flex; flex-direction:column; gap:18px;">
-          <a href="https://wa.me/34605342806" target="_blank" rel="noopener" style="display:flex; align-items:center; gap:14px;">
+          <a href="https://wa.me/34604120916" target="_blank" rel="noopener" style="display:flex; align-items:center; gap:14px;">
             <span style="width:42px; height:42px; border-radius:50%; background:#25D366; display:flex; align-items:center; justify-content:center; flex:none;">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="#fff"><path d="M.057 24l1.687-6.163a11.867 11.867 0 01-1.587-5.946C.16 5.335 5.495 0 12.05 0a11.821 11.821 0 018.413 3.488 11.824 11.824 0 013.48 8.414c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 01-5.688-1.448L.057 24zM6.597 20.13c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884a9.86 9.86 0 001.51 5.26l-.999 3.648 3.477-.917z"></path></svg>
             </span>
             <span>
               <span data-i18n="contact.wa" style="display:block; font-size:12px; color:#8F887E; letter-spacing:1px; text-transform:uppercase;">WhatsApp</span>
-              <span style="display:block; font-size:16px; font-weight:600;">+34 605 34 28 06</span>
+              <span style="display:block; font-size:16px; font-weight:600;">+34 604 12 09 16</span>
             </span>
           </a>
-          <a href="tel:+34605342806" style="display:flex; align-items:center; gap:14px;">
+          <a href="tel:+34604120916" style="display:flex; align-items:center; gap:14px;">
             <span style="width:42px; height:42px; border-radius:50%; border:1px solid rgba(246,239,227,0.3); display:flex; align-items:center; justify-content:center; flex:none;">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#F6EFE3" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
             </span>
             <span>
               <span data-i18n="contact.tel" style="display:block; font-size:12px; color:#8F887E; letter-spacing:1px; text-transform:uppercase;">Telefon</span>
-              <span style="display:block; font-size:16px; font-weight:600;">+34 605 34 28 06</span>
+              <span style="display:block; font-size:16px; font-weight:600;">+34 604 12 09 16</span>
             </span>
           </a>
           <a href="mailto:chefathomeimi@gmail.com" style="display:flex; align-items:center; gap:14px;">
@@ -1018,6 +984,125 @@
   </footer>
 
 </div>
+
+<!-- LIGHTBOX -->
+<div id="lightbox" role="dialog" aria-modal="true" aria-label="Galéria" hidden>
+  <div id="lb-inner">
+    <div id="lb-stage"><img id="lb-img" src="" alt=""></div>
+    <div id="lb-bar">
+      <div id="lb-cap"></div>
+      <div id="lb-count"></div>
+      <div id="lb-thumbs"></div>
+    </div>
+  </div>
+  <button id="lb-prev" type="button" aria-label="Előző kép">&#8249;</button>
+  <button id="lb-next" type="button" aria-label="Következő kép">&#8250;</button>
+  <button id="lb-close" type="button" aria-label="Bezárás">&times;</button>
+</div>
+
+<script>
+(function () {
+  var box = document.getElementById('lightbox');
+  var stage = document.getElementById('lb-img');
+  var cap = document.getElementById('lb-cap');
+  var count = document.getElementById('lb-count');
+  var strip = document.getElementById('lb-thumbs');
+  var figures = [].slice.call(document.querySelectorAll('#gallery figure'));
+  if (!box || !figures.length) return;
+
+  var shots = figures.map(function (fig) {
+    return { img: fig.querySelector('img'), cap: fig.querySelector('figcaption') };
+  });
+  var i = 0, opener = null, thumbs = [];
+
+  // Built on first open so the tiny strip never competes with the page's own paint.
+  function buildStrip() {
+    if (thumbs.length) return;
+    shots.forEach(function (shot, n) {
+      var src = shot.img.getAttribute('src');
+      var t = document.createElement('img');
+      t.src = src.replace(/images\/(?!thumb-)/, 'images/thumb-');
+      t.alt = '';
+      t.decoding = 'async';
+      t.addEventListener('click', function (e) { e.stopPropagation(); show(n); });
+      strip.appendChild(t);
+      thumbs.push(t);
+    });
+  }
+
+  function preload(n) {
+    var shot = shots[(n + shots.length) % shots.length];
+    if (shot) new Image().src = shot.img.getAttribute('src');
+  }
+
+  function show(n) {
+    i = (n + shots.length) % shots.length;
+    var shot = shots[i];
+    stage.classList.remove('ready');
+    var src = shot.img.getAttribute('src');
+    var next = new Image();
+    next.onload = function () { stage.src = src; stage.classList.add('ready'); };
+    next.src = src;
+    if (next.complete) { stage.src = src; stage.classList.add('ready'); }
+    stage.alt = shot.img.getAttribute('alt') || '';
+    cap.textContent = shot.cap ? shot.cap.textContent : '';
+    count.textContent = (i + 1) + ' / ' + shots.length;
+    thumbs.forEach(function (t, k) { t.className = k === i ? 'active' : ''; });
+    if (thumbs[i] && thumbs[i].scrollIntoView) {
+      thumbs[i].scrollIntoView({ block: 'nearest', inline: 'center' });
+    }
+    preload(i + 1);
+    preload(i - 1);
+  }
+
+  function open(n) {
+    opener = document.activeElement;
+    buildStrip();
+    box.hidden = false;
+    show(n);
+    void box.offsetWidth; // force reflow so the fade-in transition runs (rAF is throttled on background tabs)
+    box.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    document.getElementById('lb-close').focus();
+  }
+
+  function close() {
+    box.classList.remove('open');
+    document.body.style.overflow = '';
+    setTimeout(function () { if (!box.classList.contains('open')) box.hidden = true; }, 300);
+    if (opener && opener.focus) opener.focus();
+  }
+
+  figures.forEach(function (fig, n) {
+    fig.addEventListener('click', function () { open(n); });
+  });
+  document.getElementById('lb-close').addEventListener('click', close);
+  document.getElementById('lb-prev').addEventListener('click', function (e) { e.stopPropagation(); show(i - 1); });
+  document.getElementById('lb-next').addEventListener('click', function (e) { e.stopPropagation(); show(i + 1); });
+  box.addEventListener('click', function (e) {
+    if (e.target === box || e.target.id === 'lb-inner' || e.target.id === 'lb-stage') close();
+  });
+  document.addEventListener('keydown', function (e) {
+    if (box.hidden) return;
+    if (e.key === 'Escape') close();
+    else if (e.key === 'ArrowLeft') show(i - 1);
+    else if (e.key === 'ArrowRight') show(i + 1);
+    else if (e.key === 'Home') show(0);
+    else if (e.key === 'End') show(shots.length - 1);
+    else return;
+    e.preventDefault();
+  });
+
+  var touchX = null;
+  box.addEventListener('touchstart', function (e) { touchX = e.changedTouches[0].clientX; }, { passive: true });
+  box.addEventListener('touchend', function (e) {
+    if (touchX === null) return;
+    var dx = e.changedTouches[0].clientX - touchX;
+    touchX = null;
+    if (Math.abs(dx) > 45) show(dx < 0 ? i + 1 : i - 1);
+  }, { passive: true });
+})();
+</script>
 <script src="i18n.js"></script>
 </body>
 </html>
